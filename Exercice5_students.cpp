@@ -95,7 +95,7 @@ double finit(double x, double x1, double n_init, double x2, string initializatio
 
   return finit_;
 }
-// next week : partie analytique me manque
+// TO CHECK
 
 // Surcharge de l'opérateur pour écrire les éléments d'un tableau dans un fichier //
 
@@ -300,14 +300,20 @@ int main(int argc, char *argv[])
       if (equation_type == "Eq1")
       {
         // Eq.(1) D2F/DT2 = D/DX(g*h0*DF/DX)
+        fnext[i] = 2 * (1-beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]) *(1+(h0[i+1]-h0[i-1])/(2*h0[i]));
+        // TO CHECK
       }
       else if (equation_type == "Eq2")
       {
         // Eq.(2) D2F/DT2 = g*h0*D2F/DX2
+        fnext[i] = 2 * (1-beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]);
+        // probably wrong
       }
       else if (equation_type == "Eq6")
       {
         // Eq.(6) D2F/DT2 = D2/DX2(g*h0*F)
+        fnext[i] = 2 * (1-beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]);
+        // totally wrong
       }
       else
       {
