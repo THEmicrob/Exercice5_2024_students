@@ -219,8 +219,7 @@ int main(int argc, char *argv[])
       }
       else
       {
-        std::cout << "Error: x[i] out of bounds" << endl;
-        exit(1);
+        h0[i] = 0;
       }
     }
     // Initialisation de la vitesse au carré //
@@ -250,6 +249,9 @@ int main(int argc, char *argv[])
 
   ofstream fichier_f((output + "_f").c_str());
   fichier_f.precision(15);
+
+  ofstream fichier_h((output + "_h").c_str());
+  fichier_h.precision(15);
 
   // Initialisation des tableaux du schéma numérique : //
   for (int i(0); i < N; ++i)
@@ -288,10 +290,14 @@ int main(int argc, char *argv[])
   for (t = 0.; t < tfin - .5 * dt; t += dt)
   {
     // Ecriture :
-    if (stride % n_stride == 0)
+    if (stride % n_stride == 0) // nstride sert à réduire les oscillations de v
     {
       if (ecrire_f)
         fichier_f << t << " " << fnow << endl;
+      // for (int i(0); i < N; ++i)
+      // {
+      //   vel2[i]=(x[i+k]-x[i-k])/(t[])
+      // }
     }
     ++stride;
 
@@ -332,13 +338,15 @@ int main(int argc, char *argv[])
   }
 
   if (ecrire_f)
-  fichier_f << t << " " << fnow << endl;
+    fichier_f << t << " " << fnow << endl;
   fichier_x << x << endl;
   fichier_v << vel2 << endl;
+  fichier_h<<h0<<endl;
 
   fichier_f.close();
   fichier_x.close();
   fichier_v.close();
+  fichier_h.close();
 
   return 0;
 }
