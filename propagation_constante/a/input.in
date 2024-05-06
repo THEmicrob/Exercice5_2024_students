@@ -7,7 +7,7 @@ A=1.0
 x1=2.0
 x2=6.0
 
-tfin=2
+tfin=5
 
 equation_type=Eq1
 nx=64

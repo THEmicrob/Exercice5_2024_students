@@ -7,13 +7,13 @@ A=1.0
 x1=2.0
 x2=6.0
 
-tfin=1.053335740208249
+tfin=5
 
 equation_type=Eq1
 nx=64
 n_init=3
-initialization =mode
-initial_state=statique
+initialization =eq4
+initial_state=droite
 
 CFL=1.0
 nsteps=40
