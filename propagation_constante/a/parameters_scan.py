@@ -9,7 +9,7 @@ executable = 'ex5.exe'  # Name of the compiled code
 input_filename = ['propagation_constante\\a\\droite.in', 'propagation_constante\\a\\gauche.in','propagation_constante\\a\\repos.in']  # Input file
 
 nsteps=5000
-nx=np.linspace(0,1000,100)
+nx=np.linspace(0,1000,10)
 
 paramstr = 'nx'  # Parameter name to scan
 param=nx
