@@ -9,19 +9,18 @@ executable = 'ex5.exe'  # Name of the compiled code
 input_filename = ['propagation_constante\\a\\droite.in', 'propagation_constante\\a\\gauche.in','propagation_constante\\a\\repos.in']  # Input file
 
 nsteps=5000
-nx=np.linspace(0,1000,10)
+# nx=78
 
-paramstr = 'nx'  # Parameter name to scan
-param=nx
+paramstr = 'nsteps'  # Parameter name to scan
+param = nsteps  # Parameter values to scan
 
 # Simulations
 for i in range(len(input_filename)):
-    for j in range(len(param)):
-        output_file = f"propagation_constante/a/{paramstr}={param[j]}_{i}_{j}.out"
-        cmd = f"{repertoire}{executable} {input_filename[i]} {paramstr}={param[j]:.15g} output={output_file}"
-        print(cmd)
-        subprocess.run(cmd, shell=True)
-        print('Done.')
+    output_file = f"propagation_constante/a/{paramstr}={param}_{i}.out"
+    cmd = f"{repertoire}{executable} {input_filename[i]} {paramstr}={param:.15g} output={output_file}"
+    print(cmd)
+    subprocess.run(cmd, shell=True)
+    print('Done.')
 
 # output_file = f"propagation_constante/a/{paramstr}={param}.out"
 # cmd = f"{repertoire}{executable} {input_filename} {paramstr}={param:.15g} output={output_file}"
@@ -31,14 +30,13 @@ for i in range(len(input_filename)):
 
 # Analyse
 for i in range(len(input_filename)):
-    for j in range(len(param)):
-        output_file = f"propagation_constante/a/{paramstr}={param}_{i}_{j}.out"
-        lbl_f=output_file+'_f'
-        lbl_v=output_file+'_v'
-        lbl_x=output_file+'_x'
-        data_f=np.loadtxt(lbl_f)
-        data_v=np.loadtxt(lbl_v)
-        data_x=np.loadtxt(lbl_x)
+    output_file = f"propagation_constante/a/{paramstr}={param}_{i}.out"
+    lbl_f=output_file+'_f'
+    lbl_v=output_file+'_v'
+    lbl_x=output_file+'_x'
+    data_f=np.loadtxt(lbl_f)
+    data_v=np.loadtxt(lbl_v)
+    data_x=np.loadtxt(lbl_x)
 
     # artists are f at different times
     # artists = [ plt.plot(data_x, np.delete(data_f[i,:],0), label=f"t={i}") for i in range(0, nsteps, 100)]
