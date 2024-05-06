@@ -16,7 +16,7 @@ initialization =eq4
 initial_state=statique
 
 CFL=1.0
-nsteps=40
+nsteps=5000
 impose_nsteps = true 
 
 output=test.out
