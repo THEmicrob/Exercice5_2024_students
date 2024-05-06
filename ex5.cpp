@@ -9,126 +9,89 @@
 
 using namespace std;
 
-// 3 possibilités pour les conditions aux bords : fixe, libre et sortie de l'onde //
+// possibilités pour les conditions aux bords : fixe, libre, sortie, sinusoidale et periodique
 
-void boundary_condition(vector<double> &fnext, vector<double> &fnow, double const& A, \
-		double const& t,double const& dt, \
-		vector<double> &beta2, string &bc_l, string &bc_r, int &N)
+void boundary_condition(vector<double> &fnext, vector<double> &fnow, double const &A,
+                        double const &t, double const &dt,
+                        vector<double> &beta2, string &bc_l, string &bc_r, int &N)
 {
-    // xL and xR are the left and right positions we have to initialize : indexes 0 and N-1
-    if(bc_l == "fixe")
-    {
-        fnext[0] = fnow[0];
-    } else if(bc_l == "libre")
-    {
-        fnext[0] = fnow[1];
-    } else if(bc_l == "sortie")
-    {
-        fnext[0] = fnow[0] + sqrt(beta2[0])*(fnow[1] - fnow[0]);
-    } else if (bc_l == "periodique")
-    {
-        fnext[0] = fnow[N-1];
-    } else if (bc_l == "sinusoidale")
-    {
-        fnext[0] = A*sin(2*M_PI*t);
-    } else
-    {
-        std::cout << "Error: boundary condition not recognized" << endl;
-        exit(1);
-    }
-
-    if(bc_r == "fixe")
-    {
-        fnext[N-1] = fnow[N-1];
-    } else if(bc_r == "libre")
-    {
-        fnext[N-1] = fnow[N-2];
-    } else if(bc_r == "sortie")
-    {
-        fnext[N-1] = fnow[N-1] - sqrt(beta2[N-1])*(fnow[N-1] - fnow[N-2]);
-    } else if (bc_r == "periodique")
-    {
-        fnext[N-1] = fnow[0];
-    } else if (bc_r == "sinusoidale")
-    {
-        fnext[N-1] = A*sin(2*M_PI*t);
-    } else
-    {
-        std::cout << "Error: boundary condition not recognized" << endl;
-        exit(1);
-    }
-
-    // if (bc[i] == "fixe")
-    // {
-    //   fnext[x] = 0.0;
-    // }
-    // else if (bc[i] == "libre")
-    // {
-    //   fnext[x] = fnow[x + 1];
-    // }
-    // else if (bc[i] == "sortie")
-    // {
-    //   if (i == 0)
-    //   {
-    //     fnext[x] = fnow[x] + sqrt(beta2[x]) * (fnow[x + 1] - fnow[x]);
-    //   }
-    //   else
-    //   {
-    //     fnext[x] = fnow[x] - sqrt(beta2[x]) * (fnow[x] - fnow[x - 1]);
-    //   }
-    // }
-    // else if (bc[i] == "periodique")
-    // {
-    //   if (i == 0)
-    //   {
-    //     fnext[x] = fnow[N - 1];
-    //   }
-    //   else
-    //   {
-    //     fnext[x] = fnow[0];
-    //   }
-    // }
-    // else if (bc[i] == "sinusoidale")
-    // {
-    //   fnext[x] = A * sin(2 * M_PI * t);
-    // }
-    // else
-    // {
-    //   std::cout << "Error: boundary condition not recognized" << endl;
-    //   exit(1);
-    // }
+  // xL and xR are the left and right positions we have to initialize : indexes 0 and N-1
+  if (bc_l == "fixe")
+  {
+    fnext[0] = fnow[0];
+  }
+  else if (bc_l == "libre")
+  {
+    fnext[0] = fnow[1];
+  }
+  else if (bc_l == "sortie")
+  {
+    fnext[0] = fnow[0] + sqrt(beta2[0]) * (fnow[1] - fnow[0]);
+  }
+  else if (bc_l == "periodique")
+  {
+    fnext[0] = fnow[N - 1];
+  }
+  else if (bc_l == "sinusoidale")
+  {
+    fnext[0] = A * sin(2 * M_PI * t);
+  }
+  else
+  {
+    std::cout << "Error: boundary condition not recognized" << endl;
+    exit(1);
+  }
+  if (bc_r == "fixe")
+  {
+    fnext[N - 1] = fnow[N - 1];
+  }
+  else if (bc_r == "libre")
+  {
+    fnext[N - 1] = fnow[N - 2];
+  }
+  else if (bc_r == "sortie")
+  {
+    fnext[N - 1] = fnow[N - 1] - sqrt(beta2[N - 1]) * (fnow[N - 1] - fnow[N - 2]);
+  }
+  else if (bc_r == "periodique")
+  {
+    fnext[N - 1] = fnow[0];
+  }
+  else if (bc_r == "sinusoidale")
+  {
+    fnext[N - 1] = A * sin(2 * M_PI * t);
+  }
+  else
+  {
+    std::cout << "Error: boundary condition not recognized" << endl;
+    exit(1);
+  }
 }
-// next week
 
-double finit(double x, double x1, double n_init, double x2, string initialization, double A = 1.)
+double finit(double x, double xL, double n_init, double xR, double A, double u, string initialization)
 {
   double finit_(0.);
   const double PI = 3.1415926535897932384626433832795028841971e0;
   if (initialization == "mode")
   {
-    // TO CHECK
-    // Check the constant C : comes from boundary conditions
-    double C = 1.;
-    finit_ = C * cos(2*PI*n_init*(x-x1)/(x2-x1));
+    finit_ = 2 * A * sin((n_init + 0.5) * PI * x / (xR - xL)) * cos((n_init + 0.5) * PI * 0 / (xR - xL));
   }
   else if (initialization == "Eq4")
   {
-    if (x < x1 or x > x2)
+    if (x < xL or x > xR)
     {
       std::cout << "Error: x out of bounds" << endl;
       exit(1);
     }
-    finit_ = 0.5 * A * (1 - cos(2 * PI * (x - x1) / (x2 - x1)));
+    finit_ = 0.5 * A * (1 - cos(2 * PI * (x - xL) / (xR - xL)));
   }
   else
   {
     std::cout << "Error: initialization not recognized" << endl;
     exit(1);
   }
-
   return finit_;
 }
-// TO CHECK
 
 // Surcharge de l'opérateur pour écrire les éléments d'un tableau dans un fichier //
 
@@ -284,7 +247,7 @@ int main(int argc, char *argv[])
   for (int i(0); i < N; ++i)
   {
     // Initialisation de fnow //
-    fnow[i] = finit(x[i], x1, n_init, x2, initialization, A);
+    fnow[i] = finit(x[i], x1, n_init, x2, A, sqrt(vel2[i]), initialization);
 
     // Initialisation de fpast //
     if (initial_state == "statique")
@@ -293,11 +256,11 @@ int main(int argc, char *argv[])
     }
     else if (initial_state == "gauche")
     { // propagation rétrograde (vers la gauche)
-      fpast[i] = finit(x[i] - (*max_vel2) * dt, x1, n_init, x2, initialization, A);
+      fpast[i] = finit(x[i] - sqrt(vel2[i]) * dt, x1, n_init, x2, A, sqrt(vel2[i]), initialization);
     }
     else if (initial_state == "droite")
     { // propagation progressive (vers la droite)
-      fpast[i] = finit(x[i] + (*max_vel2) * dt, x1, n_init, x2, initialization, A);
+      fpast[i] = finit(x[i] + sqrt(vel2[i]) * dt, x1, n_init, x2, A, sqrt(vel2[i]), initialization);
     }
     else
     {
@@ -333,19 +296,18 @@ int main(int argc, char *argv[])
       if (equation_type == "Eq1")
       {
         // Eq.(1) D2F/DT2 = D/DX(g*h0*DF/DX)
-        fnext[i] = 2 * (1-beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]) *(1+(h0[i+1]-h0[i-1])/(2*h0[i]));
+        fnext[i] = 2 * (1 - beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]) * (1 + (h0[i + 1] - h0[i - 1]) / (2 * h0[i]));
         // TO CHECK
       }
       else if (equation_type == "Eq2")
       {
         // Eq.(2) D2F/DT2 = g*h0*D2F/DX2
-        fnext[i] = 2 * (1-beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]);
-        // probably wrong
+        fnext[i] = 2 * (1 - beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]);
       }
       else if (equation_type == "Eq6")
       {
         // Eq.(6) D2F/DT2 = D2/DX2(g*h0*F)
-        fnext[i] = 2 * (1-beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]);
+        fnext[i] = 2 * (1 - beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]);
         // totally wrong
       }
       else
@@ -356,7 +318,7 @@ int main(int argc, char *argv[])
     }
 
     // Conditions aux bords //
-    boundary_condition(fnext, fnow, A, t, dt, beta2, bc_l, bc_r,N);
+    boundary_condition(fnext, fnow, A, t, dt, beta2, bc_l, bc_r, N);
 
     // Mise à jour des tableaux //
     for (int i(0); i < N; ++i)
@@ -367,7 +329,7 @@ int main(int argc, char *argv[])
   }
 
   if (ecrire_f)
-    fichier_f << t << " " << fnow << endl;
+  fichier_f << t << " " << fnow << endl;
   fichier_x << x << endl;
   fichier_v << vel2 << endl;
 

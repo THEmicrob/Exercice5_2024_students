@@ -28,9 +28,9 @@ data_x=np.loadtxt(lbl_x)
 
 # vague part vers la droite
 plt.figure()
-plt.plot(data_x, data_v)
+plt.plot(data_x, np.delete(data_f[1], -1), label='f(x)')
 plt.xlabel('x')
-plt.ylabel('v')
+plt.ylabel('y')
 plt.title('v(x)')
 plt.grid()
 plt.savefig(f'propagation_constante/a/v_x_{paramstr}={param}.png')
