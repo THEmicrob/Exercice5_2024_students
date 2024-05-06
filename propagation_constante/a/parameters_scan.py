@@ -5,6 +5,7 @@ from matplotlib.animation import ArtistAnimation
 
 repertoire = ''  # Path to the compiled code
 executable = 'ex5.exe'  # Name of the compiled code
+# executable = 'Exercice5.exe'  # Name of the compiled code
 input_filename = 'propagation_constante\\a\\input.in'  # Name of the input file
 
 nsteps = 5000
@@ -28,6 +29,7 @@ data_v=np.loadtxt(lbl_v)
 data_x=np.loadtxt(lbl_x)
 
 # artists are f at different times
+# artists = [ plt.plot(data_x, np.delete(data_f[i,:],0), label=f"t={i}") for i in range(0, nsteps, 100)]
 artists = [ plt.plot(data_x, np.delete(data_f[i,:],0), label=f"t={i}") for i in range(0, nsteps, 100)]
 
 # plot

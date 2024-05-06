@@ -1,13 +1,13 @@
 % Physique :
-cb_gauche=fixe   !fixe, libre, sortie
-cb_droite=libre !fixe, libre, sortie
+cb_gauche=periodique   !fixe, libre, sortie
+cb_droite=sortie !fixe, libre, sortie
 v_uniform = true
 
 A=1.0
 x1=2.0
 x2=6.0
 
-tfin=1.053335740208249
+tfin=2
 
 equation_type=Eq1
 nx=64
