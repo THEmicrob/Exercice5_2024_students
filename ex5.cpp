@@ -22,8 +22,8 @@ void boundary_condition(vector<double> &fnext, vector<double> &fnow, double cons
   }
   else if (bc_l == "libre")
   {
-    // fnext[0] = fnow[1];
-    fnext[0] = fnext[1];
+    fnext[0] = fnow[1];
+    // fnext[0] = fnext[1];
   }
   else if (bc_l == "sortie")
   {
@@ -48,8 +48,8 @@ void boundary_condition(vector<double> &fnext, vector<double> &fnow, double cons
   }
   else if (bc_r == "libre")
   {
-    // fnext[N - 1] = fnow[N - 2];
-    fnext[N - 1] = fnext[N - 2];
+    fnext[N - 1] = fnow[N - 2];
+    // fnext[N - 1] = fnext[N - 2];
   }
   else if (bc_r == "sortie")
   {
@@ -80,7 +80,14 @@ double finit(double x, double xL, double n_init, double xR, double A, double u, 
   }
   else if (initialization == "eq4")
   {
-    finit_ = 0.5 * A * (1 - cos(2 * PI * (x - xL) / (xR - xL)));
+    if (x <= xL or x >= xR)
+    {
+      finit_ = 0.;
+    }
+    else
+    {
+      finit_ = 0.5 * A * (1 - cos(2 * PI * (x - xL) / (xR - xL)));
+    }
   }
   else
   {
@@ -291,9 +298,6 @@ int main(int argc, char *argv[])
     // Evolution :
     for (int i(1); i < N - 1; ++i)
     {
-      double DF = (fnow[i + 1] - fnow[i - 1]) / (2 * dx);
-      double D2F = (fnow[i + 1] - 2 * fnow[i] + fnow[i - 1]) / (dx * dx);
-      // fnext[i] = 0.0;
       if (equation_type == "Eq1")
       {
         // Eq.(1) D2F/DT2 = D/DX(g*h0*DF/DX)
@@ -323,11 +327,8 @@ int main(int argc, char *argv[])
     boundary_condition(fnext, fnow, A, t, dt, beta2, bc_l, bc_r, N);
 
     // Mise à jour des tableaux //
-    for (int i(0); i < N; ++i)
-    {
-      fpast[i] = fnow[i];
-      fnow[i] = fnext[i];
-    }
+    fpast = fnow;
+    fnow = fnext;
   }
 
   if (ecrire_f)
