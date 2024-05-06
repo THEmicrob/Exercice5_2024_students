@@ -10,7 +10,7 @@ x2=6.0
 tfin=1.5
 
 equation_type=Eq1
-nx=200
+nx=130
 n_init=3
 initialization =eq4
 initial_state=statique
