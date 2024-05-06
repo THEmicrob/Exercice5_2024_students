@@ -22,7 +22,8 @@ void boundary_condition(vector<double> &fnext, vector<double> &fnow, double cons
   }
   else if (bc_l == "libre")
   {
-    fnext[0] = fnow[1];
+    // fnext[0] = fnow[1];
+    fnext[0] = fnext[1];
   }
   else if (bc_l == "sortie")
   {
@@ -47,7 +48,8 @@ void boundary_condition(vector<double> &fnext, vector<double> &fnow, double cons
   }
   else if (bc_r == "libre")
   {
-    fnext[N - 1] = fnow[N - 2];
+    // fnext[N - 1] = fnow[N - 2];
+    fnext[N - 1] = fnext[N - 2];
   }
   else if (bc_r == "sortie")
   {
@@ -76,13 +78,8 @@ double finit(double x, double xL, double n_init, double xR, double A, double u, 
   {
     finit_ = 2 * A * sin((n_init + 0.5) * PI * x / (xR - xL)) * cos((n_init + 0.5) * PI * 0 / (xR - xL));
   }
-  else if (initialization == "Eq4")
+  else if (initialization == "eq4")
   {
-    if (x < xL or x > xR)
-    {
-      std::cout << "Error: x out of bounds" << endl;
-      exit(1);
-    }
     finit_ = 0.5 * A * (1 - cos(2 * PI * (x - xL) / (xR - xL)));
   }
   else
@@ -184,6 +181,9 @@ int main(int argc, char *argv[])
   // Initialisation de la profondeur et de la vitesse aux points de maillage : //
   for (int i(0); i < N; ++i)
   {
+    // Initialisation de la position //
+    x[i] = xL + i * dx;
+    // Initialisation de la profondeur //
     if (v_uniform)
     {
       h0[i] = h00;
@@ -216,6 +216,7 @@ int main(int argc, char *argv[])
         exit(1);
       }
     }
+    // Initialisation de la vitesse au carré //
     vel2[i] = g * h0[i];
   }
   // TO CHECK
@@ -297,6 +298,7 @@ int main(int argc, char *argv[])
       {
         // Eq.(1) D2F/DT2 = D/DX(g*h0*DF/DX)
         fnext[i] = 2 * (1 - beta2[i]) * fnow[i] - fpast[i] + beta2[i] * (fnow[i + 1] + fnow[i - 1]) * (1 + (h0[i + 1] - h0[i - 1]) / (2 * h0[i]));
+        // fnext[i] = 2*(1-beta2[i])*fnow[i] - fpast[i] + beta2[i]*(fnow[i+1]+fnow[i-1])+beta2[i]/h0[i]*(h0[i+1]-h0[i])*(fnow[i+1]-fnow[i]);
         // TO CHECK
       }
       else if (equation_type == "Eq2")

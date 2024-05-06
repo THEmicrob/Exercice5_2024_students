@@ -1,9 +1,10 @@
 import numpy as np
 import subprocess
 import matplotlib.pyplot as plt
+from matplotlib.animation import ArtistAnimation
 
 repertoire = ''  # Path to the compiled code
-executable = 'Exercice5_students.exe'  # Name of the compiled code
+executable = 'ex5.exe'  # Name of the compiled code
 input_filename = 'propagation_constante\\a\\input.in'  # Name of the input file
 
 nsteps = 5000
@@ -26,12 +27,11 @@ data_f=np.loadtxt(lbl_f)
 data_v=np.loadtxt(lbl_v)
 data_x=np.loadtxt(lbl_x)
 
-# vague part vers la droite
-plt.figure()
-plt.plot(data_x, np.delete(data_f[1], -1), label='f(x)')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('v(x)')
-plt.grid()
-plt.savefig(f'propagation_constante/a/v_x_{paramstr}={param}.png')
+# artists are f at different times
+artists = [ plt.plot(data_x, np.delete(data_f[i,:],0), label=f"t={i}") for i in range(0, nsteps, 100)]
+
+# plot
+fig=plt.figure()
+image=ArtistAnimation(fig, artists, interval=50, blit=True)
+image.save(f"propagation_constante/a/{paramstr}={param}.gif", writer='imagemagick')
 plt.show()

@@ -12,10 +12,10 @@ tfin=1.053335740208249
 equation_type=Eq1
 nx=64
 n_init=3
-initialization =mode
+initialization =eq4
 initial_state=statique
 
-CFL=1.0
+CFL=1.01
 nsteps=40
 impose_nsteps = true 
 
