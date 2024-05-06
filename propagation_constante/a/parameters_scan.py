@@ -8,7 +8,8 @@ executable = 'ex5.exe'  # Name of the compiled code
 # executable = 'Exercice5.exe'  # Name of the compiled code
 input_filename = ['propagation_constante\\a\\droite.in', 'propagation_constante\\a\\gauche.in','propagation_constante\\a\\repos.in']  # Input file
 
-nsteps = 5000
+nsteps=40
+# nx=78
 
 paramstr = 'nsteps'  # Parameter name to scan
 param = nsteps  # Parameter values to scan
