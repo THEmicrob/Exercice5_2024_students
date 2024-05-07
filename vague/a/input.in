@@ -3,7 +3,7 @@ cb_gauche=sortie   !fixe, libre, sortie
 cb_droite=sortie !fixe, libre, sortie
 v_uniform = false
 
-A=1.0
+A=1.0e3
 x1=50.0e3
 x2=250.0e3
 
@@ -11,9 +11,9 @@ tfin=12000
 
 equation_type=Eq1
 nx=1000
-n_init=3
+n_init=2
 initialization =eq4
-initial_state=gauche
+initial_state=droite
 
 CFL=1.0
 nsteps=5000
@@ -25,11 +25,11 @@ ecrire_f=1
 
 hL = 7000.0
 hR = 200.0
-hC = 35.0
+hC = 35.0e1
 h00= 3.0
-xa= 3e5
-xb= 7e5
-xc= 7.2e5
-xd= 8.5e5
+xa= 300.0e3
+xb= 700.0e3
+xc= 720.0e3
+xd= 850.0e3
 xL= 0.0  ! left boundary of the domain
-xR= 1000000.0 ! right boundary of the domain
+xR= 1000.0e3 ! right boundary of the domain

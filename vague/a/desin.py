@@ -62,7 +62,7 @@ plt.xlabel('x',fontsize=fs)
 plt.ylabel('y',fontsize=fs)
 # plot
 fig=plt.figure()
-image=ArtistAnimation(fig,artists, interval=200, blit=True)
+image=ArtistAnimation(fig,artists, interval=100, blit=True)
 image.save(f"vague/a/{paramstr}={param}.gif", writer='imagemagick')
 # plt.tight_layout()
 # plt.savefig(f"vague/a/{paramstr}={param}.png",dpi=200)
