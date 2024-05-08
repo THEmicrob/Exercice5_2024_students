@@ -234,6 +234,11 @@ int main(int argc, char *argv[])
 
   auto max_vel2 = std::max_element(vel2.begin(), vel2.end());
 
+  // Initialisation du temps final tfin //
+  if(initialization=="mode"){
+    tfin = (xR - xL) / (n_init*(*max_vel2));
+  }
+
   // Initialisation du pas de temps //
   dt = CFL * dx / sqrt(*max_vel2);
   if (impose_nsteps)
