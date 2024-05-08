@@ -73,10 +73,15 @@ void boundary_condition(vector<double> &fnext, vector<double> &fnow, double cons
 double finit(double x, double xL, double n_init, double xR, double A, double u, string initialization)
 {
   double finit_(0.);
+  double omega,f_propre;
   const double PI = 3.1415926535897932384626433832795028841971e0;
   if (initialization == "mode")
   {
-    finit_ = 2 * A * sin((n_init + 0.5) * PI * x / (xR - xL)) * cos((n_init + 0.5) * PI * 0 / (xR - xL));
+    omega = 2 * PI * n_init * u / (xR - xL);
+    // f_propre=cos(omega * (x - xR)/u);
+    finit_ = A/2*cos(omega * (x - xL)/u);
+    // finit_ = 2*A*sin((n_init+0.5)*PI*x/(xR-xL))*cos((n_init+0.5)*PI*t0*u/(xR-xL));
+
   }
   else if (initialization == "eq4")
   {
